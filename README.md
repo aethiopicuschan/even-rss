@@ -1,54 +1,58 @@
 # Even RSS
 
-スマホで登録したRSS / Atomフィードを、Even G2で新しい順に読めるリーダーです。スマホではフィードの追加・削除・更新と記事本文を表示し、G2では記事一覧から本文をページ送りできます。
+[![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen?style=flat-square)](/LICENSE)
 
-## 開発
+An RSS / Atom reader that lets you add feeds on your phone and read the latest articles on Even G2. The phone UI lets you add, remove, and refresh feeds, and read article content. On G2, you can browse the article list and page through article content.
+
+[日本語](README.ja.md)
+
+## Development
 
 ```sh
 npm install
 npm run dev
 ```
 
-ブラウザではスマホ用の管理画面とG2表示プレビューを確認できます。G2画面をエミュレートする場合は別ターミナルで実行します。
+The browser shows the phone feed-management UI and a G2 display preview. To run the emulator, start it in a separate terminal:
 
 ```sh
 npm run simulator
 ```
 
-エミュレーターのBrowserウィンドウで`http://localhost:5173/simulator-feed.xml`を登録すると、2件の記事の新着順表示と本文ページ送りを試せます。Glasses Displayウィンドウでは上下で記事を選び、クリックで本文、ダブルクリックで一覧へ戻ります。一覧を長押しするとフィードを更新できます。
+In the emulator's Browser window, add `http://localhost:5173/simulator-feed.xml` to try a two-article feed, sorted newest first, and page through the article content. In the Glasses Display window, use Up and Down to select an article, Click to open it, and Double Click to return to the list. Long Press in the list refreshes the feed.
 
-## 表示言語
+## Display language
 
-アプリのUIはWebViewが報告する優先言語に合わせて表示します。対応言語はEnglish、简体中文、繁體中文、日本語、Español、Français、Deutsch、Italiano、한국어です。中国語はWebViewのロケール情報から簡体字・繁体字を判別し、対応言語がない場合は日本語にします。Even Realitiesアプリ独自の言語設定がWebViewの言語に反映されない環境では、端末/WebView側の優先言語が使われます。
+The app UI follows the preferred language reported by the WebView. Supported languages are English, Simplified Chinese, Traditional Chinese, Japanese, Spanish, French, German, Italian, and Korean. Chinese script is determined from the WebView locale. Japanese is used when the preferred language is unsupported. If the Even Realities app's language setting is not reflected in the WebView, the device/WebView preferred language is used instead.
 
-エミュレーターではURLの`?lang=`で言語を指定して確認できます（例: `http://localhost:5173/?lang=en`、`?lang=zh-Hant`、`?lang=ja`）。指定できる値は`en`、`zh-Hans`、`zh-Hant`、`ja`、`es`、`fr`、`de`、`it`、`ko`です。省略するとWebViewの優先言語が使われます。
+In the emulator, you can test a language by setting the `?lang=` URL parameter (for example, `http://localhost:5173/?lang=en`, `?lang=zh-Hant`, or `?lang=ja`). Supported values are `en`, `zh-Hans`, `zh-Hant`, `ja`, `es`, `fr`, `de`, `it`, and `ko`. If omitted, the WebView's preferred language is used.
 
-ブラウザー側を`npm run dev -- --host 0.0.0.0`で起動すると、エミュレーターでも同じ画面を確認できます。実機ではEven Hubのローカルテストを使います。
+To access the browser UI from the emulator, start the dev server with `npm run dev -- --host 0.0.0.0`. For on-device testing, use Even Hub's local testing flow:
 
 ```sh
 npm run dev -- --host 0.0.0.0
-evenhub qr --url "http://<パソコンのLAN IP>:5173"
+evenhub qr --url "http://<your-computer's-LAN-IP>:5173"
 ```
 
-Even RealitiesアプリのEven HubからQRコードを読み取ります。アプリをパッケージする場合はEven Hub CLIを使います。
+Scan the QR code from Even Hub in the Even Realities app. To package the app, use the Even Hub CLI:
 
 ```sh
 evenhub pack app.json dist -o even-rss.ehpk
 ```
 
-## フィード取得とCORS
+## Feed fetching and CORS
 
-フィードの取得はすべてCloudflare Worker経由で行い、アプリから配信元へ直接アクセスしません。ブラウザーのCORS制限に左右されず、配信元ホストへの許可もWorker側で管理できます。`app.json`の`permissions.network`はWorkerへの通信を許可する設定です。
+All feeds are fetched through a Cloudflare Worker; the app does not access feed providers directly. This avoids browser CORS restrictions, and the Worker controls which source hosts are allowed. `permissions.network` in `app.json` grants the app network access to the Worker.
 
-アプリにはスマホ側の「RSS取得Workerを設定」から、利用者自身のWorker URLを設定できます。Workerは`GET ?url=<フィードURL>`を受け取り、RSS / Atom XMLとCORSヘッダーを返す必要があります。設定はその端末内に保存され、アプリからのフィード取得に使われます。「デフォルトに戻す」を押すと、パッケージ作成時に`VITE_RSS_PROXY_URL`で指定された既定Workerに戻ります。未設定の場合はフィードを取得せず、直接アクセスへのフォールバックもしません。
+In the phone UI, users can set their own Worker URL under “RSS Fetch Worker.” The Worker must accept `GET ?url=<feed URL>` and return RSS / Atom XML with CORS headers. The URL is saved on that device and used for feed requests. “Reset to default” restores the default Worker URL provided at package build time through `VITE_RSS_PROXY_URL`. If no Worker URL is configured, feed fetching is disabled; the app does not fall back to direct requests.
 
-付属の`proxy/worker.js`をCloudflare Workerにデプロイすれば、同じ仕様の個人用Workerとして利用できます。`proxy/wrangler.toml`の`ALLOWED_FEED_HOSTS = "*"`はすべてのドメインを許可します（localhostやIPアドレスはWorker側で拒否します）。
+You can deploy the included `proxy/worker.js` to Cloudflare Workers for a personal Worker with the same interface. `ALLOWED_FEED_HOSTS = "*"` in `proxy/wrangler.toml` allows all domains (the Worker still rejects localhost and IP addresses).
 
-ドメイン制限のないWorkerは、URLを知る第三者も利用できる公開プロキシになります。公開環境で使う場合は、悪用や予期しない通信量を避けるため、`ALLOWED_FEED_HOSTS`を信頼できるフィードのホスト名に絞ってください。
+A Worker with no domain restrictions is a public proxy that can be used by anyone who knows its URL. For public deployments, restrict `ALLOWED_FEED_HOSTS` to trusted feed hosts to reduce abuse and unexpected traffic.
 
-### エミュレーターで試す
+### Try it in the emulator
 
-Cloudflareへのデプロイは不要です。別ターミナルでローカルWorkerを起動し、`.env.local`にURLを指定してからViteを再起動します。
+You do not need to deploy to Cloudflare. Start a local Worker in a separate terminal, set its URL in `.env.local`, and restart Vite:
 
 ```sh
 npm install --save-dev wrangler
@@ -60,7 +64,7 @@ echo 'VITE_RSS_PROXY_URL=http://localhost:8787/' > .env.local
 npm run dev
 ```
 
-### 実機・配布用
+### On-device testing and distribution
 
 ```sh
 npm install --save-dev wrangler
@@ -68,10 +72,10 @@ npx wrangler login
 npx wrangler deploy --config proxy/wrangler.toml
 
 cp .env.example .env.local
-# .env.local の VITE_RSS_PROXY_URL にデプロイしたWorkerのURLを設定
+# Set VITE_RSS_PROXY_URL in .env.local to the deployed Worker URL
 npm run dev
 ```
 
-`.env.local`の`VITE_RSS_PROXY_URL`にデプロイ後のWorker URLを設定し、パッケージする前に`npm run build`してください。利用者がアプリ内で任意のWorker URLを指定できるようにするには、`app.json`の`permissions.network`でそのWorkerのドメインを許可する必要があります。利用者ごとに異なるドメインを許可する場合は、現在の`"*"`を維持してください。公開Workerを広く共有する場合は、`proxy/wrangler.toml`の`ALLOWED_FEED_HOSTS`を許可するフィードのホスト名に絞ってください。
+Set `VITE_RSS_PROXY_URL` in `.env.local` to the deployed Worker URL and run `npm run build` before packaging. If users should be able to specify arbitrary Worker URLs in the app, `permissions.network` in `app.json` must allow those Worker domains. To allow different domains per user, keep the current `"*"` setting. If you share a public Worker broadly, restrict `ALLOWED_FEED_HOSTS` in `proxy/wrangler.toml` to the feed hosts you trust.
 
-フィード一覧と取得記事は端末内に保存します。Even Hub上ではSDKのアプリ用ストレージにも保存して、G2表示と同期します。グラスでは上下操作で記事を選び、タップで本文を開きます。本文はページ分割され、タップまたは上下操作でページを切り替えます。ダブルタップで一覧へ戻ります。
+Feed subscriptions and fetched articles are stored on the device. In Even Hub, they are also stored in the SDK's app storage and synchronized with the G2 display. On the glasses, use Up and Down to select an article and Click to open it. Article content is split into pages; use Click or Up/Down to move between pages. Double Click returns to the list.

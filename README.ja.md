@@ -1,4 +1,4 @@
-# Even RSS
+# Iskra
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen?style=flat-square)](/LICENSE)
 
@@ -41,7 +41,7 @@ evenhub qr --url "http://<パソコンのLAN IP>:5173"
 Even RealitiesアプリのEven HubからQRコードを読み取ります。アプリをパッケージする場合はEven Hub CLIを使います。
 
 ```sh
-evenhub pack app.json dist -o even-rss.ehpk
+evenhub pack app.json dist -o iskra.ehpk
 ```
 
 ## フィード取得とCORS

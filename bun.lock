@@ -3,7 +3,7 @@
   "configVersion": 0,
   "workspaces": {
     "": {
-      "name": "even-rss",
+      "name": "iskra",
       "dependencies": {
         "@evenrealities/even_hub_sdk": "^0.0.16",
       },

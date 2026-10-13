@@ -3,7 +3,7 @@
   <channel>
     <title>Simulator Feed</title>
     <link>https://example.com/</link>
-    <description>Local feed used to verify the Even RSS simulator.</description>
+    <description>Local feed used to verify the Iskra simulator.</description>
     <item>
       <title>新しい記事の本文をグラスで読む</title>
       <link>https://example.com/newest</link>

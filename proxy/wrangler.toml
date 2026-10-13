@@ -1,4 +1,4 @@
-name = "even-rss-feed-proxy"
+name = "iskra-feed-proxy"
 main = "worker.js"
 compatibility_date = "2026-10-01"
 

@@ -1,4 +1,4 @@
-# Even RSS
+# Iskra
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen?style=flat-square)](/LICENSE)
 
@@ -41,7 +41,7 @@ evenhub qr --url "http://<your-computer's-LAN-IP>:5173"
 Scan the QR code from Even Hub in the Even Realities app. To package the app, use the Even Hub CLI:
 
 ```sh
-evenhub pack app.json dist -o even-rss.ehpk
+evenhub pack app.json dist -o iskra.ehpk
 ```
 
 ## Feed fetching and CORS

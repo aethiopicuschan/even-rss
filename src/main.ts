@@ -33,9 +33,12 @@ interface SavedState {
     lastUpdatedAt: string;
 }
 
-const STORAGE_KEY = "even-rss-state-v1";
-const PROXY_STORAGE_KEY = "even-rss-proxy-url-v1";
-const UI_LANGUAGE_STORAGE_KEY = "even-rss-ui-language-v1";
+const STORAGE_KEY = "iskra-state-v1";
+const PROXY_STORAGE_KEY = "iskra-proxy-url-v1";
+const UI_LANGUAGE_STORAGE_KEY = "iskra-ui-language-v1";
+const LEGACY_STORAGE_KEY = "even-rss-state-v1";
+const LEGACY_PROXY_STORAGE_KEY = "even-rss-proxy-url-v1";
+const LEGACY_UI_LANGUAGE_STORAGE_KEY = "even-rss-ui-language-v1";
 const MAX_FEEDS = 12;
 const MAX_ARTICLES = 60;
 const MAX_BODY_LENGTH = 5000;
@@ -102,7 +105,7 @@ app.innerHTML = `
         <header class="topbar">
             <a class="brand" href="#" aria-label="${t("brandHome")}">
                 <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
-                <span class="brand-copy"><strong>even</strong><span>${t("brandTagline")}</span></span>
+                <span class="brand-copy"><strong>iskra</strong><span>${t("brandTagline")}</span></span>
             </a>
             <div class="topbar-meta"><span class="connection-dot"></span><span id="connection-label">${t("connectionConnecting")}</span></div>
             <button id="refresh-button" class="button button-quiet" type="button" aria-label="${t("refreshAria")}">
@@ -307,7 +310,7 @@ async function connectEvenBridge(): Promise<void> {
         bridge = await waitForEvenAppBridge();
         if (await restoreUiLanguageFromBridge()) return;
         await renderGlasses(true);
-        const storedState = parseSavedState(await bridge.getLocalStorage(STORAGE_KEY));
+        const storedState = parseSavedState(await readMigratedBridgeStorage(STORAGE_KEY, LEGACY_STORAGE_KEY) ?? "");
         if (storedState.feeds.length || storedState.articles.length) {
             state = mergeStates(state, storedState);
             saveLocalState();
@@ -408,7 +411,7 @@ async function restoreUiLanguageFromBridge(): Promise<boolean> {
     const localLanguage = readStoredUiLanguage();
     let storedLanguage: UiLanguage | null = null;
     try {
-        storedLanguage = parseUiLanguage(await bridge!.getLocalStorage(UI_LANGUAGE_STORAGE_KEY));
+        storedLanguage = parseUiLanguage(await readMigratedBridgeStorage(UI_LANGUAGE_STORAGE_KEY, LEGACY_UI_LANGUAGE_STORAGE_KEY));
     } catch (error) {
         console.error("Could not read display language from Even Hub.", error);
     }
@@ -999,19 +1002,11 @@ async function saveState(): Promise<void> {
 }
 
 function loadLocalState(): SavedState {
-    try {
-        return parseSavedState(localStorage.getItem(STORAGE_KEY) ?? "");
-    } catch {
-        return { ...EMPTY_STATE };
-    }
+    return parseSavedState(readMigratedLocalStorage(STORAGE_KEY, LEGACY_STORAGE_KEY) ?? "");
 }
 
 function loadProxyUrl(): string {
-    try {
-        return localStorage.getItem(PROXY_STORAGE_KEY)?.trim() ?? "";
-    } catch {
-        return "";
-    }
+    return readMigratedLocalStorage(PROXY_STORAGE_KEY, LEGACY_PROXY_STORAGE_KEY)?.trim() ?? "";
 }
 
 function saveLocalState(): void {
@@ -1044,12 +1039,36 @@ function getUrlLanguageOverride(): UiLanguage | null {
 }
 
 function readStoredUiLanguage(): UiLanguage | null {
+    const value = readMigratedLocalStorage(UI_LANGUAGE_STORAGE_KEY, LEGACY_UI_LANGUAGE_STORAGE_KEY);
+    return isUiLanguage(value) ? value : null;
+}
+
+function readMigratedLocalStorage(key: string, legacyKey: string): string | null {
     try {
-        const value = localStorage.getItem(UI_LANGUAGE_STORAGE_KEY);
-        return isUiLanguage(value) ? value : null;
+        const current = localStorage.getItem(key);
+        if (current !== null) return current;
+        const legacy = localStorage.getItem(legacyKey);
+        if (legacy !== null) localStorage.setItem(key, legacy);
+        return legacy;
     } catch {
         return null;
     }
+}
+
+async function readMigratedBridgeStorage(key: string, legacyKey: string): Promise<string | null> {
+    if (!bridge) return null;
+    const current = await bridge.getLocalStorage(key);
+    if (current) return current;
+    const legacy = await bridge.getLocalStorage(legacyKey);
+    if (legacy) {
+        try {
+            await bridge.setLocalStorage(key, legacy);
+        } catch (error) {
+            console.error("Could not migrate Even Hub storage.", error);
+        }
+        return legacy;
+    }
+    return current ?? null;
 }
 
 function mergeStates(first: SavedState, second: SavedState): SavedState {

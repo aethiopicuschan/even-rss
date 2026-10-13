@@ -1,6 +1,6 @@
 {
-    "package_id": "com.aethiopicuschan.evenrss",
-    "name": "Even RSS",
+    "package_id": "com.aethiopicuschan.iskra",
+    "name": "Iskra",
     "version": "0.1.0",
     "edition": "202601",
     "min_sdk_version": "0.0.16",

@@ -147,6 +147,8 @@ h1, h2, h3, p { margin-top: 0; }
 .empty-state p { margin: 0; color: #a1a79b; font-size: 10px; line-height: 1.7; }
 .phone-footer { display: flex; align-items: center; gap: 7px; padding: 17px 0; color: #a4aa9f; font-size: 9px; }
 .footer-lock { color: #92a77b; font-size: 12px; }
+.footer-privacy-link { margin-left: auto; color: #77816f; text-decoration: underline; text-underline-offset: 2px; }
+.footer-privacy-link:hover { color: #405738; }
 
 .glass-column { position: sticky; top: 38px; min-width: 0; padding-top: 11px; }
 .glass-heading { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 17px; }

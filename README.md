@@ -27,6 +27,10 @@ Choose the display language from the selector below the feed settings. The defau
 
 In the emulator, you can also temporarily override the saved choice with the `?lang=` URL parameter (for example, `http://localhost:5173/?lang=en`, `?lang=zh-Hant`, or `?lang=ja`). Supported values are `en`, `zh-Hans`, `zh-Hant`, `ja`, `es`, `fr`, `de`, `it`, and `ko`. Changing the selector removes the URL override and saves the new choice.
 
+## Privacy
+
+The app's privacy policy is available in English and Japanese at [`public/privacy.html`](public/privacy.html) and from the in-app footer. Before publication, host the policy at a public HTTPS URL and add that URL to the Even Hub listing.
+
 To access the browser UI from the emulator, start the dev server with `npm run dev -- --host 0.0.0.0`. For on-device testing, use Even Hub's local testing flow:
 
 ```sh

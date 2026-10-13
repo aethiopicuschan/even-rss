@@ -27,6 +27,10 @@ npm run simulator
 
 エミュレーターではURLの`?lang=`で保存済みの設定を一時的に上書きできます（例: `http://localhost:5173/?lang=en`、`?lang=zh-Hant`、`?lang=ja`）。指定できる値は`en`、`zh-Hans`、`zh-Hant`、`ja`、`es`、`fr`、`de`、`it`、`ko`です。選択欄を変更するとURL上書きが解除され、新しい言語が保存されます。
 
+## プライバシー
+
+プライバシーポリシーは英語・日本語で[`public/privacy.html`](public/privacy.html)にあり、アプリ内フッターからも開けます。公開前にHTTPSで一般公開し、Even Hubの掲載情報にURLを登録してください。
+
 ブラウザー側を`npm run dev -- --host 0.0.0.0`で起動すると、エミュレーターでも同じ画面を確認できます。実機ではEven Hubのローカルテストを使います。
 
 ```sh

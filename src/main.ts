@@ -171,7 +171,10 @@ app.innerHTML = `
                     </div>
                 </section>
 
-                <footer class="phone-footer"><span class="footer-lock" aria-hidden="true">◈</span>${t("savedLocally")}</footer>
+                <footer class="phone-footer">
+                    <span class="footer-lock" aria-hidden="true">◈</span>${t("savedLocally")}
+                    <a class="footer-privacy-link" href="./privacy.html">${t("privacyPolicy")}</a>
+                </footer>
             </section>
 
             <aside class="glass-column" aria-label="${t("glassPreviewAria")}">

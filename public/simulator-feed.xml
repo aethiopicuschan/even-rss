@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Simulator Feed</title>
+    <link>https://example.com/</link>
+    <description>Local feed used to verify the Even RSS simulator.</description>
+    <item>
+      <title>新しい記事の本文をグラスで読む</title>
+      <link>https://example.com/newest</link>
+      <guid>https://example.com/newest</guid>
+      <pubDate>Tue, 13 Oct 2026 04:00:00 GMT</pubDate>
+      <description><![CDATA[<p>これはエミュレーター確認用の新着記事です。RSSの本文をスマートフォン画面とグラス画面の両方で読めることを確認します。</p><p>グラスでは、一覧から記事を選んで本文を開き、タップまたは上下操作でページを切り替えます。</p><p>このサンプルフィードには少し前の記事も含まれています。並び順が新しい順であることも確認できます。</p><p>本文が長い場合はG2の表示幅に合わせて分割されます。ダブルタップで記事一覧へ戻れます。</p>]]></description>
+    </item>
+    <item>
+      <title>少し前に公開された記事</title>
+      <link>https://example.com/older</link>
+      <guid>https://example.com/older</guid>
+      <pubDate>Mon, 12 Oct 2026 04:00:00 GMT</pubDate>
+      <description><![CDATA[<p>こちらは古い記事で、新着記事の次に並ぶことを確認します。</p>]]></description>
+    </item>
+  </channel>
+</rss>

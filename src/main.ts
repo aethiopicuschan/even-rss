@@ -45,6 +45,7 @@ const LIST_CONTAINER_NAME = "news-item";
 const ARTICLE_CONTAINER_ID = 1;
 const ARTICLE_CONTAINER_NAME = "main";
 const GLASS_LIST_PAGE_SIZE = 5;
+const LIST_INPUT_CONTAINER_ID = LIST_CONTAINER_ID + GLASS_LIST_PAGE_SIZE;
 const GLASS_LIST_TITLE_MAX_WIDTH = 56;
 const GLASS_LIST_ROW_HEIGHT = 74;
 const GLASS_LIST_VISIBLE_COUNT = 3;
@@ -342,6 +343,7 @@ async function connectEvenBridge(): Promise<void> {
             const textEvent = event.textEvent;
             if (glassMode === "list" && textEvent && (
                 textEvent.containerID === EMPTY_LIST_CONTAINER_ID
+                || textEvent.containerID === LIST_INPUT_CONTAINER_ID
                 || (typeof textEvent.containerID === "number" && textEvent.containerID >= LIST_CONTAINER_ID && textEvent.containerID < LIST_CONTAINER_ID + GLASS_LIST_PAGE_SIZE)
             )) {
                 void handleGlassListInput(textEvent.eventType);
@@ -828,11 +830,24 @@ async function renderGlasses(isInitial = false): Promise<void> {
             containerID: LIST_CONTAINER_ID + row.index,
             containerName: `${LIST_CONTAINER_NAME}-${row.index + 1}`,
             content: glassNewsListItem(row.article),
-            isEventCapture: row.index === selectedLocalIndex ? 1 : 0,
+            isEventCapture: 0,
         });
         rowY += row.height + 4;
         return card;
     });
+    cards.push(new TextContainerProperty({
+        xPosition: 8,
+        yPosition: 6,
+        width: 560,
+        height: 276,
+        zOrderIndex: cards.length + 1,
+        borderWidth: 0,
+        paddingLength: 0,
+        containerID: LIST_INPUT_CONTAINER_ID,
+        containerName: "news-list-input",
+        content: "",
+        isEventCapture: 1,
+    }));
     if (isInitial || !glassPageCreated) {
         const result = await bridge.createStartUpPageContainer(new CreateStartUpPageContainer({
             containerTotalNum: cards.length,

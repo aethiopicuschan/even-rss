@@ -145,10 +145,10 @@ h1, h2, h3, p { margin-top: 0; }
 .empty-icon { width: 40px; height: 40px; display: grid; place-items: center; margin-bottom: 12px; border: 1px solid #dfe7d6; border-radius: 50%; color: #97aa81; font-size: 25px; }
 .empty-state h3 { margin: 0 0 6px; color: #596052; font-size: 12px; font-weight: 600; }
 .empty-state p { margin: 0; color: #a1a79b; font-size: 10px; line-height: 1.7; }
-.phone-footer { display: flex; align-items: center; gap: 7px; padding: 17px 0; color: #a4aa9f; font-size: 9px; }
+.phone-footer { display: flex; align-items: center; gap: 7px; margin-top: 10px; padding: 17px 0; color: #a4aa9f; font-size: 9px; }
 .footer-lock { color: #92a77b; font-size: 12px; }
-.footer-privacy-link { margin-left: auto; color: #77816f; text-decoration: underline; text-underline-offset: 2px; }
-.footer-privacy-link:hover { color: #405738; }
+.preview-privacy-link { display: block; width: fit-content; margin: 18px auto 0; color: #77816f; font-size: 9px; text-decoration: underline; text-underline-offset: 2px; }
+.preview-privacy-link:hover { color: #405738; }
 
 .glass-column { position: sticky; top: 38px; min-width: 0; padding-top: 11px; }
 .glass-heading { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 17px; }
@@ -171,7 +171,7 @@ kbd { display: inline-grid; height: 17px; min-width: 25px; padding: 0 4px; place
 .glass-info p { flex: 1; margin: 0; color: #7d8577; font-size: 10px; line-height: 1.65; }
 .sync-mark { display: flex; align-items: center; gap: 6px; color: #a0a797; font-size: 8px; white-space: nowrap; }
 .sync-mark i { width: 5px; height: 5px; }
-.preview-caption { display: flex; align-items: center; justify-content: center; gap: 7px; margin-top: 18px; color: #a1a79b; font-size: 9px; }
+.preview-caption { display: flex; align-items: center; justify-content: center; gap: 7px; margin-top: 7px; color: #a1a79b; font-size: 9px; }
 .caption-dot { width: 4px; height: 4px; background: #a9b692; }
 
 .article-dialog { width: min(620px, calc(100% - 34px)); max-height: min(82vh, 800px); padding: 37px clamp(24px, 6vw, 52px) 36px; border: 1px solid #e0e5da; border-radius: 16px; background: #fffefa; color: var(--ink); box-shadow: 0 28px 90px rgba(28, 42, 27, .2); }
@@ -217,7 +217,7 @@ kbd { display: inline-grid; height: 17px; min-width: 25px; padding: 0 4px; place
     .display-preview-stage { max-width: 460px; min-height: 220px; margin: 0 auto; }
     .display-screen { min-height: 190px; }
     .glass-info { margin-top: 20px; }
-    .preview-caption { margin-top: 14px; }
+    .preview-caption { margin-top: 7px; }
 }
 
 @media (max-width: 420px) {

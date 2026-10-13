@@ -173,7 +173,6 @@ app.innerHTML = `
 
                 <footer class="phone-footer">
                     <span class="footer-lock" aria-hidden="true">◈</span>${t("savedLocally")}
-                    <a class="footer-privacy-link" href="./privacy.html">${t("privacyPolicy")}</a>
                 </footer>
             </section>
 
@@ -192,6 +191,7 @@ app.innerHTML = `
                     <p>${t("glassInfo")}</p>
                     <span class="sync-mark"><i></i>${t("sync")}</span>
                 </div>
+                <a class="preview-privacy-link" href="./privacy.html">${t("privacyPolicy")}</a>
                 <div class="preview-caption"><span class="caption-dot"></span>${t("previewCaption")}</div>
             </aside>
         </main>

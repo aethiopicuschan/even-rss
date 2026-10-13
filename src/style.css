@@ -97,6 +97,11 @@ h1, h2, h3, p { margin-top: 0; }
 .proxy-form .button-primary span:last-child { color: #f9fbf4; font-size: 10px; font-weight: 600; }
 .proxy-reset { margin-top: 8px; padding: 3px 0; font-size: 10px; }
 .proxy-settings .inline-message:not(:empty) { margin-top: 8px; }
+.language-setting { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 15px; padding-top: 13px; border-top: 1px solid #edf0e9; }
+.language-setting .field-label { margin: 0; }
+.language-setting select { max-width: 60%; padding: 7px 9px; border: 1px solid #e4e8df; border-radius: 6px; background: #fff; color: #495044; font-size: 11px; }
+.language-settings .language-setting { justify-content: flex-start; margin-top: 13px; padding-top: 0; border-top: 0; }
+.language-settings .language-setting select { width: 100%; max-width: none; }
 .inline-message { min-height: 0; margin-top: 0; color: #6a9a5f; font-size: 11px; line-height: 1.55; }
 .inline-message:not(:empty) { margin-top: 11px; }
 .inline-message.error { color: #bd6a5a; }
@@ -145,19 +150,10 @@ h1, h2, h3, p { margin-top: 0; }
 
 .glass-column { position: sticky; top: 38px; min-width: 0; padding-top: 11px; }
 .glass-heading { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 17px; }
-.glass-heading h2 { margin: 9px 0 0; color: #30392f; font: 600 23px/1.2 "Manrope", "Noto Sans JP", sans-serif; letter-spacing: -.8px; }
 .glass-live { display: inline-flex; align-items: center; gap: 7px; padding-bottom: 4px; color: #9ba292; font: 400 8px var(--mono); letter-spacing: 1px; }
 .glass-live i { width: 6px; height: 6px; }
-.glasses-stage { position: relative; height: 291px; display: flex; align-items: center; justify-content: center; perspective: 800px; }
-.lens { position: absolute; top: 45px; width: 46%; height: 176px; overflow: hidden; border: 4px solid #34463c; border-radius: 19px 21px 23px 23px; background: linear-gradient(145deg, rgba(53, 70, 60, .96), rgba(24, 34, 29, .98)); box-shadow: inset 0 0 0 1px rgba(194, 217, 176, .15), 0 11px 22px rgba(37, 50, 40, .2); transform: rotateY(-6deg); }
-.lens-left { left: 1%; border-radius: 20px 16px 22px 22px; }
-.lens-right { right: 1%; border-radius: 16px 20px 22px 22px; transform: rotateY(6deg); }
-.lens-notch { position: absolute; top: -5px; left: 50%; width: 35px; height: 9px; border-radius: 0 0 8px 8px; background: #819078; opacity: .3; transform: translateX(-50%); }
-.bridge-piece { position: absolute; z-index: 1; top: 62px; left: 50%; width: 30px; height: 20px; border-top: 4px solid #34463c; transform: translateX(-50%); }
-.temple { position: absolute; top: 57px; height: 7px; width: 14%; border-radius: 8px; background: #34463c; }
-.temple-left { left: -9%; transform: rotate(12deg); }
-.temple-right { right: -9%; transform: rotate(-12deg); }
-.glass-screen { position: absolute; z-index: 2; left: 5.5%; right: 5.5%; top: 68px; height: 130px; padding: 8px 10px; color: #cbf187; font-family: var(--mono); text-shadow: 0 0 9px rgba(178, 225, 108, .31); }
+.display-preview-stage { display: flex; align-items: center; min-height: 291px; }
+.display-screen { width: 100%; min-height: 205px; padding: 17px; overflow: hidden; border: 1px solid #35483c; border-radius: 10px; background: linear-gradient(145deg, #18221c, #101711); box-shadow: 0 12px 28px rgba(37, 50, 40, .14); color: #cbf187; font-family: var(--mono); text-shadow: 0 0 9px rgba(178, 225, 108, .31); }
 .screen-content { height: 100%; overflow: hidden; }
 .screen-item { margin: 2px 0; padding: 3px 4px; border: 1px solid transparent; border-radius: 3px; color: #9bb579; }
 .screen-item.active { border-color: #b4d872; color: #d2f393; }
@@ -165,15 +161,6 @@ h1, h2, h3, p { margin-top: 0; }
 .screen-item-meta > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .screen-item-meta time { flex: 0 0 auto; }
 .screen-item-title { overflow: hidden; margin-top: 3px; color: inherit; font-size: 7px; line-height: 1.25; text-overflow: ellipsis; white-space: nowrap; }
-.screen-empty { height: 110px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; text-align: center; }
-.screen-empty strong { color: #c5e993; font-size: 9px; font-weight: 400; line-height: 1.35; }
-.screen-empty small { color: #8ca66b; font-size: 6px; }
-.screen-article-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 5px; color: #d2ef9a; font-size: 6px; line-height: 1.25; }
-.screen-article-heading > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.screen-article-heading time { flex: 0 0 auto; color: #95af76; }
-.screen-article-body { display: -webkit-box; overflow: hidden; margin-top: 12px; color: #badb8b; font-size: 7px; line-height: 1.35; -webkit-line-clamp: 5; -webkit-box-orient: vertical; }
-.lens-shine { position: absolute; z-index: 3; top: 46px; left: 2%; width: 95%; height: 169px; border-radius: 21px; background: linear-gradient(112deg, transparent 0 47%, rgba(255, 255, 255, .045) 48%, transparent 63%); pointer-events: none; }
-.stage-reflection { position: absolute; bottom: 27px; left: 10%; width: 80%; height: 16px; border-radius: 50%; background: rgba(57, 69, 51, .1); filter: blur(10px); }
 .glass-controls { display: flex; justify-content: center; gap: 8px; margin-top: 0; }
 .control-pill { display: inline-flex; align-items: center; gap: 7px; padding: 6px 9px; border: 1px solid #e0e5d9; border-radius: 7px; color: #91988b; font-size: 9px; }
 kbd { display: inline-grid; height: 17px; min-width: 25px; padding: 0 4px; place-items: center; border: 1px solid #dfe4d8; border-radius: 4px; background: #fafbf7; color: #707b67; font: 400 8px "Noto Sans JP", sans-serif; }
@@ -225,12 +212,8 @@ kbd { display: inline-grid; height: 17px; min-width: 25px; padding: 0 4px; place
     .articles-section { margin-top: 32px; }
     .article-card { min-height: 94px; }
     .glass-column { position: relative; top: auto; padding: 24px 12px 25px; border-top: 1px solid #dfe4d8; }
-    .glass-heading h2 { font-size: 21px; }
-    .glasses-stage { max-width: 460px; height: 268px; margin: 0 auto; }
-    .lens { top: 40px; height: 166px; }
-    .glass-screen { top: 61px; height: 124px; }
-    .lens-shine { top: 41px; height: 159px; }
-    .stage-reflection { bottom: 25px; }
+    .display-preview-stage { max-width: 460px; min-height: 220px; margin: 0 auto; }
+    .display-screen { min-height: 190px; }
     .glass-info { margin-top: 20px; }
     .preview-caption { margin-top: 14px; }
 }

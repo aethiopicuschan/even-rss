@@ -23,9 +23,9 @@ In the emulator's Browser window, add `http://localhost:5173/simulator-feed.xml`
 
 ## Display language
 
-The app UI follows the preferred language reported by the WebView. Supported languages are English, Simplified Chinese, Traditional Chinese, Japanese, Spanish, French, German, Italian, and Korean. Chinese script is determined from the WebView locale. Japanese is used when the preferred language is unsupported. If the Even Realities app's language setting is not reflected in the WebView, the device/WebView preferred language is used instead.
+Choose the display language from the selector below the feed settings. The default is English. Supported languages are English, Simplified Chinese, Traditional Chinese, Japanese, Spanish, French, German, Italian, and Korean. Your choice is saved on the device and in Even Hub app storage, and is used for both the phone UI and G2 article text.
 
-In the emulator, you can test a language by setting the `?lang=` URL parameter (for example, `http://localhost:5173/?lang=en`, `?lang=zh-Hant`, or `?lang=ja`). Supported values are `en`, `zh-Hans`, `zh-Hant`, `ja`, `es`, `fr`, `de`, `it`, and `ko`. If omitted, the WebView's preferred language is used.
+In the emulator, you can also temporarily override the saved choice with the `?lang=` URL parameter (for example, `http://localhost:5173/?lang=en`, `?lang=zh-Hant`, or `?lang=ja`). Supported values are `en`, `zh-Hans`, `zh-Hant`, `ja`, `es`, `fr`, `de`, `it`, and `ko`. Changing the selector removes the URL override and saves the new choice.
 
 To access the browser UI from the emulator, start the dev server with `npm run dev -- --host 0.0.0.0`. For on-device testing, use Even Hub's local testing flow:
 

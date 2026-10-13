@@ -23,9 +23,9 @@ npm run simulator
 
 ## 表示言語
 
-アプリのUIはWebViewが報告する優先言語に合わせて表示します。対応言語はEnglish、简体中文、繁體中文、日本語、Español、Français、Deutsch、Italiano、한국어です。中国語はWebViewのロケール情報から簡体字・繁体字を判別し、対応言語がない場合は日本語にします。Even Realitiesアプリ独自の言語設定がWebViewの言語に反映されない環境では、端末/WebView側の優先言語が使われます。
+フィード設定の下にある表示言語の選択欄から変更できます。初期設定はEnglishです。English、简体中文、繁體中文、日本語、Español、Français、Deutsch、Italiano、한국어に対応し、選択した言語は端末とEven Hubのアプリ用ストレージに保存され、スマホUIとG2上の記事表示に反映されます。
 
-エミュレーターではURLの`?lang=`で言語を指定して確認できます（例: `http://localhost:5173/?lang=en`、`?lang=zh-Hant`、`?lang=ja`）。指定できる値は`en`、`zh-Hans`、`zh-Hant`、`ja`、`es`、`fr`、`de`、`it`、`ko`です。省略するとWebViewの優先言語が使われます。
+エミュレーターではURLの`?lang=`で保存済みの設定を一時的に上書きできます（例: `http://localhost:5173/?lang=en`、`?lang=zh-Hant`、`?lang=ja`）。指定できる値は`en`、`zh-Hans`、`zh-Hant`、`ja`、`es`、`fr`、`de`、`it`、`ko`です。選択欄を変更するとURL上書きが解除され、新しい言語が保存されます。
 
 ブラウザー側を`npm run dev -- --host 0.0.0.0`で起動すると、エミュレーターでも同じ画面を確認できます。実機ではEven Hubのローカルテストを使います。
 

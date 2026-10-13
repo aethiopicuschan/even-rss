@@ -7,7 +7,7 @@ import {
     waitForEvenAppBridge,
     type EvenAppBridge,
 } from "@evenrealities/even_hub_sdk";
-import { detectUiLanguage, t } from "./i18n";
+import { detectUiLanguage, isUiLanguage, parseUiLanguage, setUiLanguage, t, type UiLanguage } from "./i18n";
 import "./style.css";
 
 interface Feed {
@@ -35,6 +35,7 @@ interface SavedState {
 
 const STORAGE_KEY = "even-rss-state-v1";
 const PROXY_STORAGE_KEY = "even-rss-proxy-url-v1";
+const UI_LANGUAGE_STORAGE_KEY = "even-rss-ui-language-v1";
 const MAX_FEEDS = 12;
 const MAX_ARTICLES = 60;
 const MAX_BODY_LENGTH = 5000;
@@ -51,6 +52,7 @@ const GLASS_BODY_LINE_WIDTH = 36;
 const GLASS_BODY_PAGE_LINES = 9;
 const RSS_PROXY_URL = import.meta.env.VITE_RSS_PROXY_URL?.trim() ?? "";
 let rssProxyUrl = loadProxyUrl() || RSS_PROXY_URL;
+setUiLanguage(getInitialUiLanguage());
 const EMPTY_STATE: SavedState = { feeds: [], articles: [], lastUpdatedAt: "" };
 const LOCAL_TIME_ZONE = Intl.DateTimeFormat().resolvedOptions().timeZone;
 const LOCAL_DATE_FORMATTER = new Intl.DateTimeFormat("en-US", {
@@ -81,6 +83,18 @@ let selectedFeedId = "all";
 
 const app = document.querySelector<HTMLDivElement>("#app");
 if (!app) throw new Error("App root element is missing.");
+
+const languageOptions: { value: UiLanguage; label: string }[] = [
+    { value: "en", label: "English" },
+    { value: "zh-Hans", label: "简体中文" },
+    { value: "zh-Hant", label: "繁體中文" },
+    { value: "ja", label: "日本語" },
+    { value: "es", label: "Español" },
+    { value: "fr", label: "Français" },
+    { value: "de", label: "Deutsch" },
+    { value: "it", label: "Italiano" },
+    { value: "ko", label: "한국어" },
+];
 
 app.innerHTML = `
     <div class="page-shell">
@@ -133,6 +147,14 @@ app.innerHTML = `
                         </form>
                         <div id="proxy-message" class="inline-message" role="status" aria-live="polite"></div>
                     </details>
+                    <details class="proxy-settings language-settings">
+                        <summary>${t("displayLanguage")}</summary>
+                        <div class="language-setting">
+                            <select id="language-select" aria-label="${escapeHtml(t("displayLanguage"))}">
+                                ${languageOptions.map(({ value, label }) => `<option value="${value}">${label}</option>`).join("")}
+                            </select>
+                        </div>
+                    </details>
                 </section>
 
                 <section class="articles-section" aria-labelledby="articles-title">
@@ -153,20 +175,12 @@ app.innerHTML = `
 
             <aside class="glass-column" aria-label="${t("glassPreviewAria")}">
                 <div class="glass-heading">
-                    <div><span class="eyebrow"><span class="eyebrow-line"></span>${t("eyebrowG2")}</span><h2>${t("readOnGlasses")}</h2></div>
                     <span class="glass-live"><i></i><span id="glass-status">${t("glassStatusPreview")}</span></span>
                 </div>
-                <div class="glasses-stage">
-                    <div class="lens-shine" aria-hidden="true"></div>
-                    <div class="lens lens-left"><span class="lens-notch"></span></div>
-                    <div class="bridge-piece" aria-hidden="true"></div>
-                    <div class="lens lens-right"><span class="lens-notch"></span></div>
-                    <div class="temple temple-left" aria-hidden="true"></div>
-                    <div class="temple temple-right" aria-hidden="true"></div>
-                    <div class="glass-screen">
+                <div class="display-preview-stage">
+                    <div class="display-screen">
                         <div id="glass-preview" class="screen-content"></div>
                     </div>
-                    <span class="stage-reflection" aria-hidden="true"></span>
                 </div>
                 <div class="glass-controls"><span class="control-pill"><kbd>↑↓</kbd> ${t("chooseArticle")}</span><span class="control-pill"><kbd>${t("tap")}</kbd> ${t("openBody")}</span></div>
                 <div class="glass-info">
@@ -187,6 +201,7 @@ app.innerHTML = `
 
 const feedForm = document.querySelector<HTMLFormElement>("#feed-form")!;
 const proxyForm = document.querySelector<HTMLFormElement>("#proxy-form")!;
+const languageSelect = document.querySelector<HTMLSelectElement>("#language-select")!;
 const feedUrlInput = document.querySelector<HTMLInputElement>("#feed-url")!;
 const proxyUrlInput = document.querySelector<HTMLInputElement>("#proxy-url")!;
 const proxyResetButton = document.querySelector<HTMLButtonElement>("#proxy-reset-button")!;
@@ -203,6 +218,12 @@ const feedCount = document.querySelector<HTMLSpanElement>("#feed-count")!;
 const toast = document.querySelector<HTMLDivElement>("#toast")!;
 const articleDialog = document.querySelector<HTMLDialogElement>("#article-dialog")!;
 const dialogContent = document.querySelector<HTMLDivElement>("#dialog-content")!;
+
+languageSelect.value = detectUiLanguage();
+languageSelect.addEventListener("change", () => {
+    const language = parseUiLanguage(languageSelect.value);
+    if (language) void changeUiLanguage(language);
+});
 
 feedForm.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -280,6 +301,7 @@ void connectEvenBridge();
 async function connectEvenBridge(): Promise<void> {
     try {
         bridge = await waitForEvenAppBridge();
+        if (await restoreUiLanguageFromBridge()) return;
         await renderGlasses(true);
         const storedState = parseSavedState(await bridge.getLocalStorage(STORAGE_KEY));
         if (storedState.feeds.length || storedState.articles.length) {
@@ -347,6 +369,70 @@ async function connectEvenBridge(): Promise<void> {
     } catch (error) {
         console.info("Even Hub bridge is not available in this browser.", error);
     }
+}
+
+async function changeUiLanguage(language: UiLanguage): Promise<void> {
+    setUiLanguage(language);
+    let savedLocally = false;
+    try {
+        localStorage.setItem(UI_LANGUAGE_STORAGE_KEY, language);
+        savedLocally = true;
+    } catch (error) {
+        console.error("Could not save display language locally.", error);
+    }
+
+    const currentUrl = new URL(window.location.href);
+    currentUrl.searchParams.delete("lang");
+    if (!savedLocally) currentUrl.searchParams.set("lang", language);
+    window.history.replaceState(null, "", currentUrl);
+
+    if (bridge) {
+        try {
+            await bridge.setLocalStorage(UI_LANGUAGE_STORAGE_KEY, language);
+        } catch (error) {
+            console.error("Could not sync display language with Even Hub.", error);
+        }
+    }
+
+    window.location.reload();
+}
+
+async function restoreUiLanguageFromBridge(): Promise<boolean> {
+    if (getUrlLanguageOverride()) return false;
+
+    const localLanguage = readStoredUiLanguage();
+    let storedLanguage: UiLanguage | null = null;
+    try {
+        storedLanguage = parseUiLanguage(await bridge!.getLocalStorage(UI_LANGUAGE_STORAGE_KEY));
+    } catch (error) {
+        console.error("Could not read display language from Even Hub.", error);
+    }
+
+    if (!localLanguage && storedLanguage) {
+        setUiLanguage(storedLanguage);
+        try {
+            localStorage.setItem(UI_LANGUAGE_STORAGE_KEY, storedLanguage);
+        } catch (error) {
+            console.error("Could not cache display language locally.", error);
+        }
+        if (readStoredUiLanguage() !== storedLanguage) {
+            const currentUrl = new URL(window.location.href);
+            currentUrl.searchParams.set("lang", storedLanguage);
+            window.history.replaceState(null, "", currentUrl);
+        }
+        window.location.reload();
+        return true;
+    }
+
+    const language = localLanguage ?? detectUiLanguage();
+    if (storedLanguage !== language) {
+        try {
+            await bridge!.setLocalStorage(UI_LANGUAGE_STORAGE_KEY, language);
+        } catch (error) {
+            console.error("Could not initialize display language in Even Hub.", error);
+        }
+    }
+    return false;
 }
 
 async function addFeed(rawUrl: string): Promise<void> {
@@ -577,39 +663,18 @@ function renderArticles(): void {
 }
 
 function renderGlassPreview(): void {
-    if (glassMode === "article") {
-        const selectedArticle = state.articles.find((article) => article.id === glassArticleId);
-        if (selectedArticle) {
-            renderGlassesPreviewArticle(selectedArticle);
-            return;
-        }
-    }
-    const articles = getVisibleArticles();
-    if (!articles.length) {
-        glassPreview.innerHTML = `<div class="screen-empty"><strong>${t("noNews")}</strong><small>${t("registerPhone")}</small></div>`;
-        return;
-    }
-    glassSelectedIndex = Math.min(glassSelectedIndex, articles.length - 1);
-    const pageStart = Math.floor(glassSelectedIndex / GLASS_LIST_PAGE_SIZE) * GLASS_LIST_PAGE_SIZE;
-    const pageArticles = articles.slice(pageStart, pageStart + GLASS_LIST_PAGE_SIZE);
-    const selectedLocalIndex = glassSelectedIndex - pageStart;
-    const previewStart = Math.min(Math.max(0, selectedLocalIndex - 1), Math.max(0, pageArticles.length - 3));
-    const preview = pageArticles.slice(previewStart, previewStart + 3).map((article, index) => `
-        <div class="screen-item ${previewStart + index === selectedLocalIndex ? "active" : ""}">
-            <div class="screen-item-meta"><span>▤ ${escapeHtml(truncateToDisplayWidth(article.feedTitle || "RSS", 18))}</span><time>${escapeHtml(formatDate(article.publishedAt))}</time></div>
-            <div class="screen-item-title">${escapeHtml(excerpt(getArticleTitle(article), 64))}</div>
+    const sampleTitles = [
+        t("previewSampleTitleOne"),
+        t("previewSampleTitleTwo"),
+        t("previewSampleTitleThree"),
+    ];
+    const now = Date.now();
+    glassPreview.innerHTML = sampleTitles.map((title, index) => `
+        <div class="screen-item ${index === 0 ? "active" : ""}">
+            <div class="screen-item-meta"><span>▤ ${escapeHtml(t("previewSampleFeed"))}</span><time>${escapeHtml(formatDate(new Date(now - index * 60 * 60 * 1000).toISOString()))}</time></div>
+            <div class="screen-item-title">${escapeHtml(title)}</div>
         </div>
     `).join("");
-    glassPreview.innerHTML = preview;
-}
-
-function renderGlassesPreviewArticle(article: Article): void {
-    const body = getGlassArticlePages(article);
-    const page = Math.min(glassBodyPage, body.length - 1);
-    glassPreview.innerHTML = `
-        <div class="screen-article-heading"><span>▤ ${escapeHtml(truncateToDisplayWidth(getArticleTitle(article), 26))}</span><time>${escapeHtml(formatDate(article.publishedAt))}</time></div>
-        <div class="screen-article-body">${escapeHtml(body[page] ?? "")}</div>
-    `;
 }
 
 function getVisibleArticles(): Article[] {
@@ -631,7 +696,6 @@ function openArticle(articleId: string): void {
     glassArticleId = articleId;
     glassMode = "article";
     glassBodyPage = 0;
-    renderGlassesPreviewArticle(article);
     void renderGlasses();
 }
 
@@ -795,8 +859,6 @@ async function showGlassArticle(articleId: string): Promise<void> {
     glassMode = "article";
     glassArticleId = articleId;
     glassBodyPage = 0;
-    const article = state.articles.find((item) => item.id === articleId);
-    if (article) renderGlassesPreviewArticle(article);
     await renderGlasses();
 }
 
@@ -828,7 +890,6 @@ async function moveGlassBody(direction: -1 | 1): Promise<void> {
     if (!article) return;
     const pages = getGlassArticlePages(article);
     glassBodyPage = Math.max(0, Math.min(pages.length - 1, glassBodyPage + direction));
-    renderGlassesPreviewArticle(article);
     await renderGlasses();
 }
 
@@ -953,6 +1014,23 @@ function parseSavedState(raw: string): SavedState {
         };
     } catch {
         return { ...EMPTY_STATE };
+    }
+}
+
+function getInitialUiLanguage(): UiLanguage {
+    return getUrlLanguageOverride() ?? readStoredUiLanguage() ?? "en";
+}
+
+function getUrlLanguageOverride(): UiLanguage | null {
+    return parseUiLanguage(new URLSearchParams(window.location.search).get("lang"));
+}
+
+function readStoredUiLanguage(): UiLanguage | null {
+    try {
+        const value = localStorage.getItem(UI_LANGUAGE_STORAGE_KEY);
+        return isUiLanguage(value) ? value : null;
+    } catch {
+        return null;
     }
 }
 

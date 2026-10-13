@@ -8,7 +8,6 @@ const japanese = {
     refreshAria: "フィードを更新",
     refreshButton: "更新",
     eyebrowDaily: "YOUR DAILY BRIEFING",
-    eyebrowG2: "EVEN G2 DISPLAY",
     heroTitle: "読みたい記事を、<br><span>視線の先に。</span>",
     heroDescription: "スマホでフィードを登録。新着記事はEven G2で、本文まで読めます。",
     feedAddHeading: "フィードを追加",
@@ -30,9 +29,13 @@ const japanese = {
     noArticles: "まだ記事がありません",
     noArticlesHint: "フィードURLを追加すると、<br>新しい記事がここに届きます。",
     savedLocally: "登録したフィードと記事はこのアプリ内に保存されます。",
+    displayLanguage: "表示言語",
     glassPreviewAria: "Even G2の表示プレビュー",
-    readOnGlasses: "グラスで読む",
     glassStatusPreview: "プレビュー",
+    previewSampleFeed: "サンプルフィード",
+    previewSampleTitleOne: "読みたい記事を、視線の先に。",
+    previewSampleTitleTwo: "新着記事をグラスでチェック",
+    previewSampleTitleThree: "本文をページ送りで読む",
     glassStatusConnected: "接続中",
     chooseArticle: "記事を選ぶ",
     tap: "タップ",
@@ -85,7 +88,6 @@ const translations: Record<UiLanguage, Record<TranslationKey, string>> = {
         refreshAria: "Refresh feeds",
         refreshButton: "Refresh",
         eyebrowDaily: "YOUR DAILY BRIEFING",
-        eyebrowG2: "EVEN G2 DISPLAY",
         heroTitle: "Stories worth reading,<br><span>always in sight.</span>",
         heroDescription: "Add feeds on your phone. Read the latest stories and full articles on Even G2.",
         feedAddHeading: "Add a feed",
@@ -107,9 +109,13 @@ const translations: Record<UiLanguage, Record<TranslationKey, string>> = {
         noArticles: "No articles yet",
         noArticlesHint: "Add a feed URL to see<br>new articles here.",
         savedLocally: "Your feeds and articles are saved in this app.",
+        displayLanguage: "Display language",
         glassPreviewAria: "Even G2 display preview",
-        readOnGlasses: "Read on your glasses",
         glassStatusPreview: "PREVIEW",
+        previewSampleFeed: "Sample feed",
+        previewSampleTitleOne: "Stories worth reading, always in sight",
+        previewSampleTitleTwo: "Check the latest articles",
+        previewSampleTitleThree: "Read article text page by page",
         glassStatusConnected: "CONNECTED",
         chooseArticle: "Select an article",
         tap: "Tap",
@@ -156,7 +162,6 @@ const translations: Record<UiLanguage, Record<TranslationKey, string>> = {
         refreshAria: "刷新订阅源",
         refreshButton: "刷新",
         eyebrowDaily: "每日简报",
-        eyebrowG2: "EVEN G2 显示",
         heroTitle: "想读的文章，<br><span>尽在眼前。</span>",
         heroDescription: "在手机上添加订阅源，在 Even G2 上阅读最新文章和全文。",
         feedAddHeading: "添加订阅源",
@@ -178,9 +183,13 @@ const translations: Record<UiLanguage, Record<TranslationKey, string>> = {
         noArticles: "暂无文章",
         noArticlesHint: "添加订阅源 URL 后，<br>新文章会显示在这里。",
         savedLocally: "已添加的订阅源和文章保存在此应用中。",
+        displayLanguage: "显示语言",
         glassPreviewAria: "Even G2 显示预览",
-        readOnGlasses: "在眼镜上阅读",
         glassStatusPreview: "预览",
+        previewSampleFeed: "示例订阅源",
+        previewSampleTitleOne: "值得阅读的故事，就在眼前",
+        previewSampleTitleTwo: "查看最新文章",
+        previewSampleTitleThree: "逐页阅读文章正文",
         glassStatusConnected: "已连接",
         chooseArticle: "选择文章",
         tap: "点击",
@@ -227,7 +236,6 @@ const translations: Record<UiLanguage, Record<TranslationKey, string>> = {
         refreshAria: "重新整理訂閱來源",
         refreshButton: "重新整理",
         eyebrowDaily: "每日簡報",
-        eyebrowG2: "EVEN G2 顯示",
         heroTitle: "想讀的文章，<br><span>盡在眼前。</span>",
         heroDescription: "在手機上新增訂閱來源，在 Even G2 上閱讀最新文章與全文。",
         feedAddHeading: "新增訂閱來源",
@@ -249,9 +257,13 @@ const translations: Record<UiLanguage, Record<TranslationKey, string>> = {
         noArticles: "目前沒有文章",
         noArticlesHint: "新增訂閱來源 URL 後，<br>新文章會顯示在這裡。",
         savedLocally: "已新增的訂閱來源和文章會儲存在此應用程式中。",
+        displayLanguage: "顯示語言",
         glassPreviewAria: "Even G2 顯示預覽",
-        readOnGlasses: "在眼鏡上閱讀",
         glassStatusPreview: "預覽",
+        previewSampleFeed: "示例訂閱來源",
+        previewSampleTitleOne: "值得閱讀的故事，就在眼前",
+        previewSampleTitleTwo: "查看最新文章",
+        previewSampleTitleThree: "逐頁閱讀文章內文",
         glassStatusConnected: "已連接",
         chooseArticle: "選擇文章",
         tap: "點擊",
@@ -298,7 +310,6 @@ const translations: Record<UiLanguage, Record<TranslationKey, string>> = {
         refreshAria: "Actualizar fuentes",
         refreshButton: "Actualizar",
         eyebrowDaily: "TU RESUMEN DIARIO",
-        eyebrowG2: "PANTALLA EVEN G2",
         heroTitle: "Las historias que quieres leer,<br><span>siempre a la vista.</span>",
         heroDescription: "Añade fuentes en el móvil. Lee las últimas noticias y el artículo completo en Even G2.",
         feedAddHeading: "Añadir una fuente",
@@ -320,9 +331,13 @@ const translations: Record<UiLanguage, Record<TranslationKey, string>> = {
         noArticles: "Aún no hay artículos",
         noArticlesHint: "Añade una URL de fuente para ver<br>las novedades aquí.",
         savedLocally: "Las fuentes y los artículos se guardan en esta aplicación.",
+        displayLanguage: "Idioma de visualización",
         glassPreviewAria: "Vista previa de Even G2",
-        readOnGlasses: "Leer en las gafas",
         glassStatusPreview: "VISTA PREVIA",
+        previewSampleFeed: "Feed de ejemplo",
+        previewSampleTitleOne: "Historias que merece la pena leer",
+        previewSampleTitleTwo: "Consulta las últimas noticias",
+        previewSampleTitleThree: "Lee el artículo página a página",
         glassStatusConnected: "CONECTADO",
         chooseArticle: "Elegir artículo",
         tap: "Tocar",
@@ -369,7 +384,6 @@ const translations: Record<UiLanguage, Record<TranslationKey, string>> = {
         refreshAria: "Actualiser les flux",
         refreshButton: "Actualiser",
         eyebrowDaily: "VOTRE BRIEFING DU JOUR",
-        eyebrowG2: "ÉCRAN EVEN G2",
         heroTitle: "Les articles à lire,<br><span>toujours sous les yeux.</span>",
         heroDescription: "Ajoutez des flux sur votre téléphone. Lisez les dernières actualités et leur texte intégral sur Even G2.",
         feedAddHeading: "Ajouter un flux",
@@ -391,9 +405,13 @@ const translations: Record<UiLanguage, Record<TranslationKey, string>> = {
         noArticles: "Aucun article pour le moment",
         noArticlesHint: "Ajoutez l’URL d’un flux pour voir<br>les nouveautés ici.",
         savedLocally: "Vos flux et articles sont enregistrés dans cette application.",
+        displayLanguage: "Langue d’affichage",
         glassPreviewAria: "Aperçu de l’écran Even G2",
-        readOnGlasses: "Lire sur les lunettes",
         glassStatusPreview: "APERÇU",
+        previewSampleFeed: "Flux exemple",
+        previewSampleTitleOne: "Des histoires à lire, toujours en vue",
+        previewSampleTitleTwo: "Consultez les derniers articles",
+        previewSampleTitleThree: "Lisez l’article page par page",
         glassStatusConnected: "CONNECTÉ",
         chooseArticle: "Choisir un article",
         tap: "Appuyer",
@@ -440,7 +458,6 @@ const translations: Record<UiLanguage, Record<TranslationKey, string>> = {
         refreshAria: "Feeds aktualisieren",
         refreshButton: "Aktualisieren",
         eyebrowDaily: "DEIN TÄGLICHER ÜBERBLICK",
-        eyebrowG2: "EVEN-G2-ANZEIGE",
         heroTitle: "Lesenswerte Artikel,<br><span>immer im Blick.</span>",
         heroDescription: "Füge Feeds am Smartphone hinzu. Lies die neuesten Nachrichten und vollständige Artikel auf Even G2.",
         feedAddHeading: "Feed hinzufügen",
@@ -462,9 +479,13 @@ const translations: Record<UiLanguage, Record<TranslationKey, string>> = {
         noArticles: "Noch keine Artikel",
         noArticlesHint: "Füge eine Feed-URL hinzu, damit<br>neue Artikel hier erscheinen.",
         savedLocally: "Deine Feeds und Artikel werden in dieser App gespeichert.",
+        displayLanguage: "Anzeigesprache",
         glassPreviewAria: "Even G2 Anzeigevorschau",
-        readOnGlasses: "Auf der Brille lesen",
         glassStatusPreview: "VORSCHAU",
+        previewSampleFeed: "Beispiel-Feed",
+        previewSampleTitleOne: "Lesenswerte Geschichten im Blick",
+        previewSampleTitleTwo: "Neueste Artikel ansehen",
+        previewSampleTitleThree: "Artikel Seite für Seite lesen",
         glassStatusConnected: "VERBUNDEN",
         chooseArticle: "Artikel auswählen",
         tap: "Tippen",
@@ -511,7 +532,6 @@ const translations: Record<UiLanguage, Record<TranslationKey, string>> = {
         refreshAria: "Aggiorna i feed",
         refreshButton: "Aggiorna",
         eyebrowDaily: "IL TUO RIEPILOGO QUOTIDIANO",
-        eyebrowG2: "DISPLAY EVEN G2",
         heroTitle: "Le storie da leggere,<br><span>sempre sott’occhio.</span>",
         heroDescription: "Aggiungi feed dal telefono. Leggi le ultime notizie e gli articoli completi su Even G2.",
         feedAddHeading: "Aggiungi un feed",
@@ -533,9 +553,13 @@ const translations: Record<UiLanguage, Record<TranslationKey, string>> = {
         noArticles: "Ancora nessun articolo",
         noArticlesHint: "Aggiungi l’URL di un feed per vedere<br>qui i nuovi articoli.",
         savedLocally: "I feed e gli articoli sono salvati in questa app.",
+        displayLanguage: "Lingua di visualizzazione",
         glassPreviewAria: "Anteprima display Even G2",
-        readOnGlasses: "Leggi sugli occhiali",
         glassStatusPreview: "ANTEPRIMA",
+        previewSampleFeed: "Feed di esempio",
+        previewSampleTitleOne: "Storie da leggere, sempre sott’occhio",
+        previewSampleTitleTwo: "Scopri gli articoli più recenti",
+        previewSampleTitleThree: "Leggi l’articolo pagina per pagina",
         glassStatusConnected: "CONNESSO",
         chooseArticle: "Seleziona un articolo",
         tap: "Tocca",
@@ -582,7 +606,6 @@ const translations: Record<UiLanguage, Record<TranslationKey, string>> = {
         refreshAria: "피드 새로고침",
         refreshButton: "새로고침",
         eyebrowDaily: "오늘의 브리핑",
-        eyebrowG2: "EVEN G2 디스플레이",
         heroTitle: "읽고 싶은 기사를,<br><span>눈앞에서.</span>",
         heroDescription: "휴대폰에서 피드를 추가하고 Even G2에서 최신 기사와 본문을 읽으세요.",
         feedAddHeading: "피드 추가",
@@ -604,9 +627,13 @@ const translations: Record<UiLanguage, Record<TranslationKey, string>> = {
         noArticles: "아직 기사가 없습니다",
         noArticlesHint: "피드 URL을 추가하면<br>새 기사가 여기에 표시됩니다.",
         savedLocally: "추가한 피드와 기사는 이 앱에 저장됩니다.",
+        displayLanguage: "표시 언어",
         glassPreviewAria: "Even G2 화면 미리보기",
-        readOnGlasses: "안경에서 읽기",
         glassStatusPreview: "미리보기",
+        previewSampleFeed: "샘플 피드",
+        previewSampleTitleOne: "읽고 싶은 기사를 눈앞에서",
+        previewSampleTitleTwo: "최신 기사 확인하기",
+        previewSampleTitleThree: "페이지를 넘기며 본문 읽기",
         glassStatusConnected: "연결됨",
         chooseArticle: "기사 선택",
         tap: "탭",
@@ -645,20 +672,28 @@ const translations: Record<UiLanguage, Record<TranslationKey, string>> = {
     },
 };
 
+let currentUiLanguage: UiLanguage = "en";
+
 export function detectUiLanguage(): UiLanguage {
-    const languageOverride = new URLSearchParams(window.location.search).get("lang");
-    const candidates = [...(languageOverride ? [languageOverride] : []), ...navigator.languages, navigator.language];
-    for (const candidate of candidates) {
-        const normalized = candidate.toLowerCase().replace(/_/g, "-");
-        if (normalized.startsWith("zh")) {
-            return /-(hant|tw|hk|mo)(-|$)/.test(normalized) ? "zh-Hant" : "zh-Hans";
-        }
-        const baseLanguage = normalized.split("-")[0];
-        if (baseLanguage in translations && baseLanguage !== "zh-Hans" && baseLanguage !== "zh-Hant") {
-            return baseLanguage as UiLanguage;
-        }
+    return currentUiLanguage;
+}
+
+export function setUiLanguage(language: UiLanguage): void {
+    currentUiLanguage = language;
+}
+
+export function isUiLanguage(value: unknown): value is UiLanguage {
+    return typeof value === "string" && Object.prototype.hasOwnProperty.call(translations, value);
+}
+
+export function parseUiLanguage(value: string | null | undefined): UiLanguage | null {
+    if (!value) return null;
+    const normalized = value.toLowerCase().replace(/_/g, "-");
+    if (normalized.startsWith("zh")) {
+        return /-(hant|tw|hk|mo)(-|$)/.test(normalized) ? "zh-Hant" : "zh-Hans";
     }
-    return "ja";
+    const baseLanguage = normalized.split("-")[0];
+    return isUiLanguage(baseLanguage) ? baseLanguage : null;
 }
 
 export function t(key: TranslationKey, values: Record<string, string | number> = {}): string {
